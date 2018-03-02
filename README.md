@@ -148,6 +148,8 @@ fmt.Println(base64.StdEncoding.EncodeToString("hello"))
 
 #### generate your own native go module to javascript module
 
+my another project is: [gojs-tool](https://github.com/gogap/gojs-tool), use this command to generate the module bridge
+
 - generate moudle
 
 ```bash
