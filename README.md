@@ -128,6 +128,8 @@ components.post-api.external.grapher.default = {
 }
 
 ```
+> before using `templer` grapher, you should append `"github.com/spirit-component/postapi/grapher/templer"` to config of `packages` list in `build-goja.conf`
+and rebuild goja component
 
 
 #### javascript
