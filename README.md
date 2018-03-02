@@ -135,6 +135,7 @@ os|`os`|
 exec|`os/exec`|
 time|`time`|
 redis|`redis`| `github.com/go-redis/redis`
+log|`log`| `github.com/sirupsen/logrus`
 
 #### import lib in javascript
 
@@ -176,6 +177,8 @@ import (
 )
 
 var (
+   // the package name should be better equals to the "import/path/at/js" 's last slash name
+   // here is js
 	module = gojs.NewGojaModule("you_package_name")
 )
 

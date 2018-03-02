@@ -5,7 +5,6 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"github.com/spirit-component/goja/modules"
 	"io/ioutil"
 	"math/rand"
 	"os"
@@ -20,6 +19,7 @@ import (
 	"github.com/go-spirit/spirit/mail"
 	"github.com/go-spirit/spirit/worker"
 	"github.com/gogap/config"
+	"github.com/spirit-component/goja/modules"
 )
 
 type Goja struct {
@@ -125,6 +125,7 @@ func (p *Goja) runJS(session mail.Session) (err error) {
 	golib := modules.NewGoLib(vm)
 
 	golib.Import("utils")
+	golib.Import("log")
 
 	vm.Set("session", session)
 	vm.Set("cache", p.opts.Cache)

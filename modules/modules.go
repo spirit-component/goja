@@ -20,6 +20,7 @@ import (
 
 	"github.com/spirit-component/goja/modules/github.com/go-redis/redis"
 	"github.com/spirit-component/goja/modules/github.com/pborman/uuid"
+	"github.com/spirit-component/goja/modules/github.com/sirupsen/logrus"
 )
 
 var (
@@ -35,6 +36,7 @@ var (
 		"os":              os.Enable,
 		"os/exec":         exec.Enable,
 		"redis":           redis.Enable,
+		"log":             logrus.Enable,
 	}
 )
 
