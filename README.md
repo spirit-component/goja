@@ -126,7 +126,7 @@ fbp.SetBody({id: id})
 #### vars
 
 name|type
-:--|:--|:--
+:--|:--
 session|github.com/go-spirit/spirit/mail.Session
 cache|github.com/go-spirit/spirit/cache.Cache
 config|github.com/gogap/config.Configuration
