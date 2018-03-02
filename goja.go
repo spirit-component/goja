@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
+	"github.com/spirit-component/goja/modules"
 	"io/ioutil"
 	"math/rand"
 	"os"
@@ -121,12 +122,15 @@ func (p *Goja) runJS(session mail.Session) (err error) {
 	}
 
 	vm := newVM()
+	golib := modules.NewGoLib(vm)
+
+	golib.Import("utils")
 
 	vm.Set("session", session)
-	vm.Set("utils", jsUtils)
-	vm.Set("time", myTime)
 	vm.Set("cache", p.opts.Cache)
 	vm.Set("config", p.opts.Config)
+	vm.Set("go", golib)
+	vm.Set("fbp", &fbp{session})
 
 	prg, err := goja.Compile(apiJsFile, string(jsData), false)
 	if err != nil {
@@ -134,7 +138,7 @@ func (p *Goja) runJS(session mail.Session) (err error) {
 	}
 
 	time.AfterFunc(timeout, func() {
-		vm.Interrupt("timeout")
+		vm.Interrupt("goja runtime execute timeout")
 
 	})
 

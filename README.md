@@ -109,6 +109,37 @@ components.post-api.external.grapher.default = {
 `scripts/todo.task.new.js`
 
 ```javascript
-uuid = utils.NewUUID()
-utils.SetBody(session, {id:uuid})
+go.Import("uuid")
+go.Import("fmt")
+go.Import("time")
+
+time.Sleep(time.Second*10)
+
+id = uuid.New()
+fbp.SetBody({id: id})
+```
+
+
+
+### javascript golibs
+
+name |import path | repositry
+:--|:--|:--
+md5 | `crypto/md5`|
+base64 | `encoding/base64`|
+json | `encoding/json`|
+fmt | `fmt`|
+uuid | `uuid`| `github.com/pborman/uuid`
+ioutil|`io/ioutil`|
+os|`os`|
+exec|`os/exec`|
+time|`time`|
+
+#### import lib in javascript
+
+```javascript
+go.Import("fmt")
+go.Import("encoding/base64")
+
+fmt.Println(base64.StdEncoding.EncodeToString("hello"))
 ```
