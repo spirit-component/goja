@@ -75,6 +75,7 @@ components.goja.api-mock {
 }
 
 # post-api graph config
+# default graph driver
 components.post-api.external.grapher.default = {
 
 	todo-task-new {
@@ -104,6 +105,31 @@ components.post-api.external.grapher.default = {
 ```
 
 
+```
+# if you just want mapping api to js, you can use templer grapher
+# the template file is json format, and it will render by text/template to replace some vars.
+
+{
+    "errors": {
+        "ports": [{
+            "seq": 1,
+            "url": "spirit://actors/fbp/post-api/external?action=callback"
+        }]
+    },
+    "normal": {
+        "ports": [{
+            "seq": 1,
+            "url": "spirit://actors/fbp/goja/api-mock?action={{.api}}"
+        },{
+            "seq": 2,
+            "url": "spirit://actors/fbp/post-api/external?action=callback"
+        }]
+    }
+}
+
+```
+
+
 #### javascript
 
 `scripts/todo.task.new.js`
@@ -111,12 +137,32 @@ components.post-api.external.grapher.default = {
 ```javascript
 go.Import("uuid")
 go.Import("fmt")
-go.Import("time")
+go.Import("time", "encoding/base64")
 
-time.Sleep(time.Second*10)
+
+log.Infoln("hello I am the logger by logrus")
 
 id = uuid.New()
+obj = fbp.Object()
+cache.Set(id, {id: id, name: obj.name})
 fbp.SetBody({id: id})
+```
+
+`scripts/todo.task.get.js`
+
+```javascript
+obj = fbp.Object()
+
+if (obj) {
+	ret = cache.Get(obj.id)
+	if (ret[1]) {
+		fbp.SetBody(ret[0])
+	} else {
+		fbp.SetError("SPIRIT-GOJA",404,"task not exist")
+	}
+} else {
+	fbp.SetError("SPIRIT-GOJA",400,"bad request")
+}
 ```
 
 

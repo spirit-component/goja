@@ -32,6 +32,12 @@ func (p *fbp) SetBody(body interface{}) error {
 	return p.session.Payload().Content().SetBody(body)
 }
 
-func (p *fbp) ToObject(v interface{}) error {
-	return p.session.Payload().Content().ToObject(v)
+func (p *fbp) Object() map[string]interface{} {
+	v := make(map[string]interface{})
+	err := p.session.Payload().Content().ToObject(&v)
+	if err != nil {
+		return nil
+	}
+
+	return v
 }

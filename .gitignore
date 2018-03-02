@@ -18,3 +18,4 @@ goja.conf
 build-goja.conf
 goja
 scripts/
+graph.json
