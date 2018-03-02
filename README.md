@@ -121,27 +121,51 @@ fbp.SetBody({id: id})
 
 
 
-### javascript golibs
+### javascript
 
-name |import path | repositry
+#### vars
+
+name|type
 :--|:--|:--
-md5 | `crypto/md5`|
-base64 | `encoding/base64`|
-json | `encoding/json`|
-fmt | `fmt`|
-uuid | `uuid`| `github.com/pborman/uuid`
-ioutil|`io/ioutil`|
-os|`os`|
-exec|`os/exec`|
-time|`time`|
-redis|`redis`| `github.com/go-redis/redis`
-log|`log`| `github.com/sirupsen/logrus`
+session|github.com/go-spirit/spirit/mail.Session
+cache|github.com/go-spirit/spirit/cache.Cache
+config|github.com/gogap/config.Configuration
+go|github.com/spirit-component/goja/modules.GoLib
+fbp|github.com/spirit-component/goja.fbp
+
+
+#### golibs
+
+name |import path | repositry | default imported
+:--|:--|:--|:--
+md5 | `crypto/md5`||false
+base64 | `encoding/base64`||false
+json | `encoding/json`||false
+fmt | `fmt`||false
+uuid | `uuid`| `github.com/pborman/uuid`|false
+ioutil|`io/ioutil`||false
+os|`os`||false
+exec|`os/exec`||false
+time|`time`||false
+redis|`redis`| `github.com/go-redis/redis`|false
+log|`log`| `github.com/sirupsen/logrus`|true
+utils|`utils`|`internal`|true
+
+
+
 
 #### import lib in javascript
 
 ```javascript
+go.Import("uuid")
 go.Import("fmt")
-go.Import("encoding/base64")
+go.Import("time", "encoding/base64")
+
+
+log.Infoln("hello I am the logger by logrus")
+
+id = uuid.New()
+fbp.SetBody({id: id})
 
 fmt.Println(base64.StdEncoding.EncodeToString("hello"))
 ```
@@ -163,7 +187,7 @@ gojs-tool gen --gopath $(go env GOROOT) --template goja -r -n encoding/json
 
 - update generated code, add import `github.com/spirit-component/goja/modules` and add `modules.RegisterNativeModule` at `func init()`
 
-```
+```go
 package your_package_name
 
 import (

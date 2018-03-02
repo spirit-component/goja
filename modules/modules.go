@@ -64,11 +64,23 @@ func NewGoLib(vm *goja.Runtime) *GoLib {
 	return &GoLib{vm}
 }
 
-func (p *GoLib) Import(module string) {
-	fn, exist := golibs[module]
-	if !exist {
-		panic(fmt.Errorf("module of '%s' dost not exist", module))
+func (p *GoLib) Import(modules ...string) {
+	if len(modules) == 0 {
+		return
 	}
 
-	fn(p.vm)
+	var loadFns []func(runtime *goja.Runtime)
+
+	for _, module := range modules {
+		fn, exist := golibs[module]
+		if !exist {
+			panic(fmt.Errorf("module of '%s' dost not exist", module))
+		}
+
+		loadFns = append(loadFns, fn)
+	}
+
+	for i := 0; i < len(loadFns); i++ {
+		loadFns[i](p.vm)
+	}
 }
