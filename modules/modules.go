@@ -18,6 +18,7 @@ import (
 
 	"github.com/spirit-component/goja/modules/utils"
 
+	"github.com/spirit-component/goja/modules/github.com/go-redis/redis"
 	"github.com/spirit-component/goja/modules/github.com/pborman/uuid"
 )
 
@@ -33,8 +34,25 @@ var (
 		"utils":           utils.Enable,
 		"os":              os.Enable,
 		"os/exec":         exec.Enable,
+		"redis":           redis.Enable,
 	}
 )
+
+func RegisterNativeModule(importPath string, enableFunc func(runtime *goja.Runtime)) (err error) {
+	if len(importPath) == 0 {
+		err = fmt.Errorf("import path could not be empty")
+		return
+	}
+
+	if enableFunc == nil {
+		err = fmt.Errorf("register EnableFunc could not be nil, path: %s", importPath)
+		return
+	}
+
+	golibs[importPath] = enableFunc
+
+	return
+}
 
 type GoLib struct {
 	vm *goja.Runtime

@@ -134,6 +134,7 @@ ioutil|`io/ioutil`|
 os|`os`|
 exec|`os/exec`|
 time|`time`|
+redis|`redis`| `github.com/go-redis/redis`
 
 #### import lib in javascript
 
@@ -142,4 +143,55 @@ go.Import("fmt")
 go.Import("encoding/base64")
 
 fmt.Println(base64.StdEncoding.EncodeToString("hello"))
+```
+
+
+#### generate your own native go module to javascript module
+
+- generate moudle
+
+```bash
+# Default GOPATH
+gojs-tool gen --template goja -r -n github.com/go-redis/redis
+
+# GO Internal LIBs
+gojs-tool gen --gopath $(go env GOROOT) --template goja -r -n encoding/json
+```
+
+- update generated code, add import `github.com/spirit-component/goja/modules` and add `modules.RegisterNativeModule` at `func init()`
+
+```
+package your_package_name
+
+import (
+	// ....
+	"github.com/spirit-component/goja/modules"
+)
+
+import (
+	"github.com/dop251/goja"
+	"github.com/gogap/gojs-tool/gojs"
+)
+
+var (
+	module = gojs.NewGojaModule("you_package_name")
+)
+
+func init() {
+	// .........
+	modules.RegisterNativeModule("import/path/at/js", Enable)
+}
+
+func Enable(runtime *goja.Runtime) {
+	module.Enable(runtime)
+}
+```
+
+- update `build-goja.conf`
+
+```
+goja  {
+	# append the generated module path
+	packages = [..., "your_native_package_path"]
+}
 ```
