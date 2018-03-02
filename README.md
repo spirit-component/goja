@@ -81,13 +81,13 @@ components.post-api.external.grapher.default = {
 	todo-task-new {
 		name  = "todo.task.new"
 		graph = {
-			errors {
+			error {
 				response {
 					seq = 1
 					url = "spirit://actors/fbp/post-api/external?action=callback"
 				}
 			}
-			normal {
+			entrypoint {
 				to-todo {
 					seq = 1
 					url = "spirit://actors/fbp/goja/api-mock?action=todo.task.new"
@@ -110,13 +110,13 @@ components.post-api.external.grapher.default = {
 # the template file is json format, and it will render by text/template to replace some vars.
 
 {
-    "errors": {
+    "error": {
         "ports": [{
             "seq": 1,
             "url": "spirit://actors/fbp/post-api/external?action=callback"
         }]
     },
-    "normal": {
+    "entrypoint": {
         "ports": [{
             "seq": 1,
             "url": "spirit://actors/fbp/goja/api-mock?action={{.api}}"
