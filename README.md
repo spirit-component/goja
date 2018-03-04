@@ -7,8 +7,8 @@ goja
 #### build-config
 
 ```bash
-> spirit-builder pull --config build-goja.conf
-> spirit-builder build --config build-goja.conf
+> go-spirit pull --config build-goja.conf
+> go-spirit build --config build-goja.conf
 ```
 
 `build-goja.conf`
