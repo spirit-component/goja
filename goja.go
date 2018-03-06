@@ -128,7 +128,7 @@ func (p *Goja) runJS(session mail.Session) (err error) {
 	golib.Import("log")
 
 	vm.Set("session", session)
-	vm.Set("cache", p.opts.Cache)
+	vm.Set("caches", p.opts.Caches)
 	vm.Set("config", p.opts.Config)
 	vm.Set("go", golib)
 	vm.Set("fbp", &fbp{session})
